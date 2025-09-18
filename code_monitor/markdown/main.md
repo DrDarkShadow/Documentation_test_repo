@@ -55,3 +55,28 @@ The main entry point for the CLI tool. This function is decorated with `click` o
     python -m code_monitor.main --path /path/to/your/repo --staged-only
     ```
 ```
+
+<!-- DOC_START: code_monitor/main.py::sub_numbers -->
+### `sub_numbers(a, b)`
+
+Subtracts the second integer from the first and returns the result.
+
+#### Parameters
+
+-   `a` (int): The first number (the minuend).
+-   `b` (int): The second number (the subtrahend).
+
+#### Returns
+
+-   `int`: The difference between `a` and `b`.
+
+#### Example
+
+```python
+>>> sub_numbers(5, 3)
+2
+
+>>> sub_numbers(10, 20)
+-10
+```
+<!-- DOC_END: code_monitor/main.py::sub_numbers -->
