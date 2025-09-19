@@ -138,3 +138,37 @@ print(name)
 Code Analysis Task
 ```
 <!-- DOC_END: code_monitor/utils.py::hello -->
+
+<!-- DOC_START: code_monitor/utils.py::calculate_fibonacci -->
+### `fibonacci(n)`
+
+Calculates the n-th Fibonacci number using an efficient iterative approach.
+
+This function computes the value at a specific position `n` in the Fibonacci sequence, which starts with 0 and 1. It handles the initial base cases and then iteratively builds the sequence by summing the two preceding numbers until it reaches the desired position.
+
+-   If `n` is 0 or a negative number, the function returns `0`.
+-   If `n` is 1, it returns `1`.
+-   For `n` greater than 1, it loops `n-1` times to compute the final value.
+
+#### Parameters
+
+-   `n` (`int`): The position in the Fibonacci sequence. It is expected to be a non-negative integer.
+
+#### Returns
+
+-   `int`: The n-th Fibonacci number.
+
+#### Example
+
+```python
+# Calculate the 10th Fibonacci number
+tenth_fib = fibonacci(10)
+print(tenth_fib)
+# Expected Output: 55
+
+# Handle base cases
+zero_fib = fibonacci(0)
+print(zero_fib)
+# Expected Output: 0
+```
+<!-- DOC_END: code_monitor/utils.py::calculate_fibonacci -->
