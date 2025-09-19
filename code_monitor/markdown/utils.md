@@ -99,3 +99,42 @@ print(json.dumps(analysis_result, indent=2))
 # }
 ```
 ```
+
+<!-- DOC_START: code_monitor/utils.py::hello -->
+### `print(name)`
+
+This line of code outputs the value of the `name` variable to the standard output, which is typically the console or terminal.
+
+#### Functionality
+
+The statement utilizes Python's built-in `print()` function to display information during program execution.
+
+1.  **`print()` function**: A standard Python function that sends data to the standard output stream (`sys.stdout`).
+2.  **`name` argument**: The variable `name` is passed as an argument to the function. The `print()` function will display the string representation of the object that `name` refers to. This variable must be defined and assigned a value in the scope where this line is executed.
+3.  **Output**: By default, `print()` appends a newline character (`\n`) to its output, causing subsequent output to appear on a new line.
+
+#### Context and Use Case
+
+This type of statement is frequently used for:
+
+*   **Debugging**: To quickly inspect the value of a variable at a specific point in the code's execution.
+*   **Informational Output**: To provide status updates, results, or simple logging in command-line applications.
+
+While useful for development, in production or more complex applications, it is often better to use a dedicated logging framework (like Python's `logging` module) for more controlled and configurable output.
+
+#### Example
+
+```python
+# Assume 'name' is defined earlier in the code
+name = "Code Analysis Task"
+
+# The line in question will print the variable's value to the console
+print(name)
+```
+
+**Console Output:**
+
+```
+Code Analysis Task
+```
+<!-- DOC_END: code_monitor/utils.py::hello -->
