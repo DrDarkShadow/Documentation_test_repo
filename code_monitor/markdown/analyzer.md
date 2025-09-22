@@ -95,3 +95,75 @@ except Exception as e:
     print(f"An error occurred: {e}")
 ```
 ```
+
+<!-- DOC_START: code_monitor/analyzer.py::RepoAnalyzer -->
+### Class `RepoAnalyzer`
+
+Analyzes a Git repository to identify fine-grained code changes at the Python object level (e.g., functions, classes, methods) for a specific commit.
+
+This class leverages the `gitpython` library to inspect commit diffs and Python's built-in `ast` (Abstract Syntax Tree) module to parse source code. It identifies which specific functions or classes within a file were modified, added, or had their type changed.
+
+#### `__init__(self, repo_path: str, context_lines: int = 3)`
+
+Initializes the `RepoAnalyzer` with the path to a local Git repository.
+
+**Parameters:**
+
+| Name            | Type | Description                                                                                              | Default |
+| --------------- | ---- | -------------------------------------------------------------------------------------------------------- | ------- |
+| `repo_path`     | `str`  | The file system path to the Git repository to be analyzed.                                               |         |
+| `context_lines` | `int`  | The number of lines of context to include around a detected change within a code object.                 | `3`     |
+
+---
+
+#### `analyze_commit(self, commit_hash: str) -> list[CodeChange]`
+
+Analyzes a single commit and returns a list of all identified code object changes.
+
+The method works by comparing the specified commit against its first parent. For the initial commit in a repository (which has no parents), it treats all files as newly added. It processes files that were added, modified, or had their type changed, ignoring deleted files.
+
+For each relevant file, it parses the code from the *parent* commit to build an Abstract Syntax Tree (AST). This tree is used to identify the boundaries of every class and function. The analyzer then checks the diff from the commit to determine which of these specific code objects have been altered.
+
+The analysis gracefully skips files that are not valid Python code (e.g., raise a `SyntaxError` during parsing) or have decoding issues.
+
+**Parameters:**
+
+| Name          | Type | Description                                        |
+| ------------- | ---- | -------------------------------------------------- |
+| `commit_hash` | `str`  | The full or short SHA hash of the commit to analyze. |
+
+**Returns:**
+
+| Type                 | Description                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `list[CodeChange]` | A list of `CodeChange` objects, where each object represents a distinct modification to a single code object (function, class, etc.) within a file. Returns an empty list if no changes are found. |
+
+**Example Usage:**
+
+```python
+# Assuming CodeChange is a dataclass that holds change details
+from dataclasses import dataclass
+
+@dataclass
+class CodeChange:
+    file_path: str
+    object_name: str
+    # ... other attributes
+
+# Initialize the analyzer
+analyzer = RepoAnalyzer(repo_path="/path/to/your/project")
+
+# Analyze a specific commit
+commit_sha = "a1b2c3d4e5f6a1b2c3d4e5f6"
+changes = analyzer.analyze_commit(commit_sha)
+
+# Print the results
+if changes:
+    print(f"Found {len(changes)} object-level changes in commit {commit_sha[:7]}:")
+    for change in changes:
+        print(f"- {change.file_path}: Modified object '{change.object_name}'")
+else:
+    print(f"No analyzable Python code changes found in commit {commit_sha[:7]}.")
+
+```
+<!-- DOC_END: code_monitor/analyzer.py::RepoAnalyzer -->
